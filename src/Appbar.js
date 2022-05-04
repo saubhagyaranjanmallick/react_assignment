@@ -80,12 +80,13 @@ export default function KeepMountedModal() {
   return (
     <div>
       <Grid container lg={12} md={8} sm={4}>
-        <AppBar position="static">
+        <AppBar position="dynamic" backgroundColor ="black">
           <Toolbar>
             <Grid item lg={3} md={6} xs={12}>
               <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-                <AppRegistrationIcon fontSize="medium" />
-                <b>TOTAL</b> Assesment
+                <AppRegistrationIcon sx={{fontSize:'25px'}} />
+                <span style={{fontSize:'28px',fontWeight:'bolder'}}>TOTAL</span>
+              <span style={{fontSize:'16px',fontWeight:'bolder',}}>Assesment</span>
               </Typography>
             </Grid>
             <Grid item lg={8}></Grid>

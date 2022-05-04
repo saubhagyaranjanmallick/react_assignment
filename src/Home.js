@@ -18,6 +18,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import Cryptojs from "crypto-js";
 
 import { useNavigate } from "react-router-dom";
 
@@ -40,29 +41,27 @@ export default function App() {
       password: password,
       org_code: organization,
     };
-    window.localStorage.setItem(' user', JSON.stringify(requestData));
+
+
     axios({
       url: "https://liveexam.edusols.com/api/tassess_api.php?oper=LOGIN_CHECK",
       method: "POST",
       data: requestData,
     }).then((response) => {
-      console.log(response.data);
+      //console.log(response.data);
       const result = response.data;
       if (result.status === 200) {
         if (result.status_message === "Item_Found") {
-
           toast.success("Login Sucessfully !");
 
-          if(result.data.password_change_status === "YES") 
-          setTimeout(()=>{
-            navigate("/photovalidation");
-          },3000);
-            
-          else 
+          if (result.data.password_change_status === "YES")
+            setTimeout(() => {
+              navigate("/photovalidation");
+            }, 3000);
+          else
             setTimeout(() => {
               navigate("/password");
             }, 3000);
-          
         } else {
           setTimeout(() => {
             toast.error("Login Failed !");

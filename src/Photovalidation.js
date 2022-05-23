@@ -1,11 +1,9 @@
 import "./App.css";
 import React from "react";
-import Appbar from "./Appbar";
 import Webcam from "react-webcam";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Cryptojs from "crypto-js";
 import {
   Box,
   Grid,
@@ -18,15 +16,14 @@ import {
 } from "@mui/material";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import ErrorIcon from "@mui/icons-material/Error";
-import pic2 from "./Icon/pic1.jpeg";
 import CameraIcon from "@mui/icons-material/Camera";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
 import GppBadIcon from "@mui/icons-material/GppBad";
 import ApprovalIcon from "@mui/icons-material/Approval";
+import { toast,ToastContainer } from "react-toastify";
 
-function PhotoValidation() {
+const PhotoValidation = () => {
   let navigate = useNavigate();
   const [validate, setValidate] = useState(true);
   const [match, setMatch] = useState(false);
@@ -53,15 +50,6 @@ function PhotoValidation() {
       image: imgSrc,
     };
 
-    let string = JSON.stringify(requestData);
-    const secret = "N}vLE7k~Egvs.*j)";
-    let encrypted = Cryptojs.AES.encrypt(string, secret).toString();
-    console.log(encrypted);
-
-    let bytes = Cryptojs.AES.decrypt(encrypted, secret);
-    let data = bytes.toString(Cryptojs.enc.Utf8);
-    console.log(data);
-
     axios({
       url: "https://liveexam.edusols.com/api/tassess_api.php?oper=FACE_MATCHING",
       method: "POST",
@@ -72,17 +60,21 @@ function PhotoValidation() {
         if (res.status_message === "Item_Found") {
           const data = res.data;
           if (data.dbStatus === "SUCCESS" && data.dbMessage > 70) {
+            toast.success("Photo Match Sucessfully");
             setValidate(false);
             setMatch(true);
             setFailure(false);
             setTimeout(() => {
               navigate("/dashboard");
-            }, 3000);
+            }, 4000);
           } else {
-            setFailure(false);
-            setValidate(false);
-            setMatch(false);
-            setNotmatch(true);
+            toast.warning("Photo Mismatch..!");
+            setTimeout(() => {
+              setFailure(false);
+              setValidate(false);
+              setMatch(false);
+              setNotmatch(true);
+            }, 3000);
           }
         } else {
           alert("no data found");
@@ -98,6 +90,8 @@ function PhotoValidation() {
     setVerified(true);
     setCaptured(true);
   };
+
+  const getData1 = JSON.parse(localStorage.getItem("resultData"));
 
   return (
     <ThemeProvider theme={theme}>
@@ -164,9 +158,13 @@ function PhotoValidation() {
                       variant="h6"
                       noWrap
                       component="div"
-                      style={{ marginLeft: "20" }}
+                      style={{ marginLeft: "25" }}
                     >
-                      <b> Hi, Shivangi Sahu &nbsp;</b>
+                      <b>
+                        {" "}
+                        Hi, {getData1.data.first_name}
+                        {getData1.data.last_name}
+                      </b>
                       <Button
                         variant="outlined"
                         style={{
@@ -174,7 +172,17 @@ function PhotoValidation() {
                           border: "1px solid #deae99",
                         }}
                         onClick={() => navigate("/logout")}
-                      >
+                      >  <ToastContainer 
+                      position="top-right"
+                      theme="colored"
+                      autoClose={5000}
+                      hideProgressBar={false}
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnFocusLoss
+                      draggable
+                      pauseOnHover/>
                         ↪Logout
                       </Button>
                     </Typography>
@@ -201,7 +209,7 @@ function PhotoValidation() {
                       <Box>
                         <img
                           style={{ borderRadius: "10px" }}
-                          src={pic2}
+                          src={getData1.data.profile_image_url}
                           height="160px"
                           width="130px"
                           alt="Profile"
@@ -417,6 +425,6 @@ function PhotoValidation() {
       </div>
     </ThemeProvider>
   );
-}
+};
 
 export default PhotoValidation;

@@ -15,7 +15,6 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-
 import "./App.css";
 
 const Accordion = styled((props) => (
@@ -80,13 +79,13 @@ export default function KeepMountedModal() {
   return (
     <div>
       <Grid container lg={12} md={8} sm={4}>
-        <AppBar position="dynamic" backgroundColor ="black">
+        <AppBar position="static">
           <Toolbar>
             <Grid item lg={3} md={6} xs={12}>
               <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-                <AppRegistrationIcon sx={{fontSize:'25px'}} />
-                <span style={{fontSize:'28px',fontWeight:'bolder'}}>TOTAL</span>
-              <span style={{fontSize:'16px',fontWeight:'bolder',}}>Assesment</span>
+                <AppRegistrationIcon sx={{fontSize:'28px'}} />
+                <span style={{fontSize:'30px',fontWeight:'bolder'}}>TOTAL</span> {" "}
+              <span style={{fontSize:'20px',fontWeight:'bolder',}}>Assesment</span>
               </Typography>
             </Grid>
             <Grid item lg={8}></Grid>
@@ -98,6 +97,7 @@ export default function KeepMountedModal() {
                 color="warning"
                 onClick={handleOpen}
                 startIcon={<HelpCenterRoundedIcon />}
+                
               >
                 FAQ
               </Button>

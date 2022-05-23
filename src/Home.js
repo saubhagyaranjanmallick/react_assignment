@@ -15,17 +15,16 @@ import LoginIcon from "@mui/icons-material/Login";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
-import Cryptojs from "crypto-js";
-
+import CryptoJs from "crypto-js";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 toast.configure();
-export default function App() {
+const App = () => {
   let navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState(" ");
@@ -36,32 +35,47 @@ export default function App() {
   const submitForm = (e) => {
     e.preventDefault();
 
+   
     const requestData = {
       user_name: username,
       password: password,
       org_code: organization,
     };
 
+    let string = JSON.stringify(requestData);
+    const secret = "N}vLE7k~Egvs.*j)";
+    let encrypted = CryptoJs.AES.encrypt(string, secret).toString();
+    // console.log(encrypted);
+   
+    // let bytes = CryptoJs.AES.decrypt(encrypted, secret);
+    // let data =bytes.toString(CryptoJs.enc.Utf8);
+    // console.log(data);
+   
 
     axios({
       url: "https://liveexam.edusols.com/api/tassess_api.php?oper=LOGIN_CHECK",
       method: "POST",
       data: requestData,
     }).then((response) => {
-      //console.log(response.data);
+      console.log(response.data);
       const result = response.data;
+
       if (result.status === 200) {
         if (result.status_message === "Item_Found") {
-          toast.success("Login Sucessfully !");
+          toast.success  ("Login Sucessfully !");
 
-          if (result.data.password_change_status === "YES")
+          if (result.data.password_change_status === "YES") {
+            localStorage.setItem("resultData", JSON.stringify(result));
             setTimeout(() => {
               navigate("/photovalidation");
             }, 3000);
-          else
+          } else {
+            localStorage.setItem("resultData", JSON.stringify(result));
+            localStorage.setItem("requestData", JSON.stringify(encrypted));
             setTimeout(() => {
               navigate("/password");
             }, 3000);
+          }
         } else {
           setTimeout(() => {
             toast.error("Login Failed !");
@@ -191,7 +205,17 @@ export default function App() {
                         mt="2"
                         onClick={submitForm}
                       >
-                        <ToastContainer />
+                        <ToastContainer 
+                        position="top-right"
+                        theme="colored"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover/>
                         Proceed
                       </Button>
                     )}
@@ -208,7 +232,8 @@ export default function App() {
       </ThemeProvider>
     </form>
   );
-}
+};
+export default App;
 
 function Copyright(props) {
   return (

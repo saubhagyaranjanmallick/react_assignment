@@ -9,23 +9,18 @@ import ReportIcon from "@mui/icons-material/Report";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import EditIcon from "@mui/icons-material/Edit";
-
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import { Button } from "@mui/material";
-
 import LogoutIcon from "@mui/icons-material/Logout";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 import React, { useState } from "react";
 import Card from "@mui/material/Card";
-import Appbar from "./Appbar";
 import Erroricon from "./Icon/Erroricon.gif";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CryptoJs from "crypto-js";
 
-export default function App() {
+const Passwordchange = () => {
   var schema = new passwordValidator();
-  const [password, setPassword] = useState(" ");
   const [newpassword, setNewpassword] = useState("");
   const [confirmnewpassword, setConfirmnewpassword] = useState(" ");
   const [ma, setMa] = useState(false);
@@ -36,9 +31,11 @@ export default function App() {
   const [validate, setValidate] = useState(true);
   const [proceed, setProceed] = useState(false);
   const [failure, setFailure] = useState(false);
-  const passwordSave = (e) => {
-    setPassword(e.target.value);
-  };
+
+  // const passwordSave = (e) => {
+  //   setPassword(e.target.value);
+  // };
+
   const check = (e) => {
     schema
       .is()
@@ -85,7 +82,7 @@ export default function App() {
 
   const submitForm = (e) => {
     e.preventDefault();
-
+    const password = document.getElementById("old_password").value;
     const requestPassword = {
       password: password,
       new_password: newpassword,
@@ -100,17 +97,19 @@ export default function App() {
       method: "POST",
       data: requestPassword,
     }).then((response) => {
-      console.log(response.data);
+       console.log(response.data);
       const result = response.data;
       if (result.status === 200) {
         if (result.status_message === "Item_Found") {
           const data = result.data;
           if (data.dbStatus === "SUCCESS") {
+            toast.success("Password Changed Sucessfully...");
             setTimeout(() => {
               setValidate(false);
               setProceed(true);
             }, 3000);
           } else if (data.dbStatus === "ERROR") {
+            toast.error("Password Changed Failed !");
             setValidate(false);
             setFailure(true);
           }
@@ -120,6 +119,14 @@ export default function App() {
       }
     });
   };
+
+  const getrequestData = JSON.parse(localStorage.getItem("requestData"));
+
+  const secret = "N}vLE7k~Egvs.*j)";
+  let bytes = CryptoJs.AES.decrypt(getrequestData, secret);
+  let data = bytes.toString(CryptoJs.enc.Utf8);
+  const userData = JSON.parse(data);
+  const getresultData = JSON.parse(localStorage.getItem("resultData"));
 
   return (
     <>
@@ -155,13 +162,16 @@ export default function App() {
                       component="div"
                       sx={{ flexGrow: 1, mb: 2, mt: 2 }}
                     >
-                      <EditIcon color="primary" />{" "}
+                      <EditIcon color="primary"  /> {" "}
                       <b>Change Default Password</b>
                       <Typography
                         variant="h11"
-                        sx={{ flexGrow: 1, mb: 2, ml: 27 }}
+                        sx={{ flexGrow: 1, mb: 2, ml: 41 }}
                       >
-                        <b>Welcome, Alok Sahoo</b>
+                        <b>
+                          Welcome, {getresultData.data.first_name} 
+                          {getresultData.data.last_name}
+                        </b>
                         <Button variant="outlined" size="small" color="warning">
                           <LogoutIcon /> LOGOUT
                         </Button>
@@ -177,7 +187,9 @@ export default function App() {
                               type="text"
                               name="password"
                               margin="normal"
-                              onChange={(e) => passwordSave(e)}
+                              id="old_password"
+                              // onChange={(e) => passwordSave(e)}
+                              value={userData.password}
                               fullWidth
                             />
                             <TextField
@@ -212,6 +224,19 @@ export default function App() {
                               margin="normal"
                               onClick={submitForm}
                             >
+                              {" "}
+                              <ToastContainer
+                                position="top-right"
+                                theme="colored"
+                                autoClose={5000}
+                                hideProgressBar={false}
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover
+                              />
                               change
                             </Button>
                           </Box>
@@ -221,7 +246,9 @@ export default function App() {
                         <Box
                           sx={{
                             width: 250,
-                            height: 320,
+                            height: 260,
+                            borderRadius: 3,
+                            marginTop: "35px",
                             backgroundColor: "#b3e0f2",
                             "&:hover": {
                               backgroundColor: "primary.info",
@@ -232,7 +259,11 @@ export default function App() {
                           }}
                         >
                           <Typography variant="h5">
-                            <ReportIcon fontSize="medium" color="primary" />
+                            <ReportIcon
+                              fontSize="medium"
+                              color="primary"
+                              size="large"
+                            />
                             New Password
                           </Typography>
 
@@ -313,7 +344,7 @@ export default function App() {
                         <Typography variant="h6">
                           <b>Password Changed failed....❌</b>
                         </Typography>
-                        <img src={Erroricon} />
+                        <img src={Erroricon} alt="" />
                       </Grid>
                     </Grid>
                   </Card>
@@ -336,15 +367,15 @@ export default function App() {
                             color: "green",
                             height: "120px",
                             width: "200px",
-                            marginLeft:"60px",
-                            marginTop:"5px"
+                            marginLeft: "60px",
+                            marginTop: "5px",
                           }}
                         />
-                        
+
                         <Typography
                           variant="h5"
                           style={{
-                           color:"grey"
+                            color: "grey",
                           }}
                         >
                           <b> Password Changed Done..</b>
@@ -360,6 +391,8 @@ export default function App() {
           </Grid>
         </Box>
       </form>
+      {/* {localStorage.removeItem("requestData")} */}
     </>
   );
-}
+};
+export default Passwordchange;

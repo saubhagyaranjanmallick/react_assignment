@@ -20,6 +20,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CryptoJs from "crypto-js";
 import { useNavigate } from "react-router-dom";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import IconButton from "@mui/material/IconButton";
+import OutlinedInput from "@mui/material/OutlinedInput";
 
 const theme = createTheme();
 
@@ -35,22 +39,21 @@ const App = () => {
   const submitForm = (e) => {
     e.preventDefault();
 
-   
     const requestData = {
       user_name: username,
       password: password,
       org_code: organization,
     };
+    console.log(requestData);
 
     let string = JSON.stringify(requestData);
     const secret = "N}vLE7k~Egvs.*j)";
     let encrypted = CryptoJs.AES.encrypt(string, secret).toString();
     // console.log(encrypted);
-   
+
     // let bytes = CryptoJs.AES.decrypt(encrypted, secret);
     // let data =bytes.toString(CryptoJs.enc.Utf8);
     // console.log(data);
-   
 
     axios({
       url: "https://liveexam.edusols.com/api/tassess_api.php?oper=LOGIN_CHECK",
@@ -62,7 +65,7 @@ const App = () => {
 
       if (result.status === 200) {
         if (result.status_message === "Item_Found") {
-          toast.success  ("Login Sucessfully !");
+          toast.success("Login Sucessfully !");
 
           if (result.data.password_change_status === "YES") {
             localStorage.setItem("resultData", JSON.stringify(result));
@@ -111,6 +114,26 @@ const App = () => {
       {item.org_name}
     </MenuItem>
   ));
+  const [values, setValues] = React.useState({
+    password: "",
+    showPassword: false,
+  });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+    setPassword(event.target.value);
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   return (
     <form>
@@ -158,16 +181,37 @@ const App = () => {
                       onChange={(e) => setUsername(e.target.value)}
                       fullWidth
                     />
-                    <TextField
-                      autoComplete="password"
-                      label="Password"
+
+                    <FormControl
+                      sx={{ m: 1, width: "62ch" }}
                       variant="outlined"
-                      type="password"
-                      name="password"
-                      id="password"
-                      onChange={(e) => setPassword(e.target.value)}
-                      fullWidth
-                    />
+                    >
+                      <InputLabel htmlFor="outlined-adornment-password">
+                        Password
+                      </InputLabel>
+                      <OutlinedInput
+                        id="outlined-adornment-password"
+                        fullWidth
+                        type={values.showPassword ? "text" : "password"}
+                        value={values.password}
+                        onChange={handleChange("password")}
+                        endAdornment={
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {values.showPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        }
+                        label="Password"
+                      />
+                    </FormControl>
                     <FormControl fullWidth>
                       <InputLabel id="demo-simple-select-label">
                         Organizations
@@ -205,17 +249,18 @@ const App = () => {
                         mt="2"
                         onClick={submitForm}
                       >
-                        <ToastContainer 
-                        position="top-right"
-                        theme="colored"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover/>
+                        <ToastContainer
+                          position="top-right"
+                          theme="colored"
+                          autoClose={5000}
+                          hideProgressBar={false}
+                          newestOnTop={false}
+                          closeOnClick
+                          rtl={false}
+                          pauseOnFocusLoss
+                          draggable
+                          pauseOnHover
+                        />
                         Proceed
                       </Button>
                     )}

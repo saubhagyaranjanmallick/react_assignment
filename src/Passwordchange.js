@@ -13,11 +13,13 @@ import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import { Button } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { toast, ToastContainer } from "react-toastify";
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import Card from "@mui/material/Card";
 import Erroricon from "./Icon/Erroricon.gif";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CryptoJs from "crypto-js";
+
+
 
 const Passwordchange = () => {
   var schema = new passwordValidator();
@@ -97,7 +99,7 @@ const Passwordchange = () => {
       method: "POST",
       data: requestPassword,
     }).then((response) => {
-       console.log(response.data);
+      console.log(response.data);
       const result = response.data;
       if (result.status === 200) {
         if (result.status_message === "Item_Found") {
@@ -127,7 +129,7 @@ const Passwordchange = () => {
   let data = bytes.toString(CryptoJs.enc.Utf8);
   const userData = JSON.parse(data);
   const getresultData = JSON.parse(localStorage.getItem("resultData"));
-
+  
   return (
     <>
       <form>
@@ -140,7 +142,7 @@ const Passwordchange = () => {
               sm={3}
               sx={{
                 backgroundImage:
-                  "url(https://wallpaperaccess.com/full/1657789.jpg)",
+                  "url(https://images.unsplash.com/photo-1488722796624-0aa6f1bb6399?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870)",
                 backgroundRepeat: "no-repeat",
                 maxHeight: "100vh",
                 backgroundSize: "cover",
@@ -162,14 +164,14 @@ const Passwordchange = () => {
                       component="div"
                       sx={{ flexGrow: 1, mb: 2, mt: 2 }}
                     >
-                      <EditIcon color="primary"  /> {" "}
+                      <EditIcon color="primary" />{" "}
                       <b>Change Default Password</b>
                       <Typography
                         variant="h11"
                         sx={{ flexGrow: 1, mb: 2, ml: 41 }}
                       >
                         <b>
-                          Welcome, {getresultData.data.first_name} 
+                          Welcome, {getresultData.data.first_name}
                           {getresultData.data.last_name}
                         </b>
                         <Button variant="outlined" size="small" color="warning">
@@ -181,38 +183,45 @@ const Passwordchange = () => {
                       <Grid lg={8} sm={2}>
                         <card sx={{ maxHeight: "100%", maxWidth: "80%" }}>
                           <Box m={3}>
-                            <TextField
-                              label="Password"
-                              variant="outlined"
-                              type="text"
-                              name="password"
-                              margin="normal"
-                              id="old_password"
-                              // onChange={(e) => passwordSave(e)}
-                              value={userData.password}
-                              fullWidth
-                            />
-                            <TextField
-                              autoComplete="newpassword"
-                              label=" New Password"
-                              variant="outlined"
-                              type="password"
-                              name="newpassword"
-                              margin="normal"
-                              onChange={(e) => check(e)}
-                              fullWidth
-                            />
-
-                            <TextField
-                              label=" Confirm New Password"
-                              variant="outlined"
-                              type="password"
-                              name="confirmnewpassword"
-                              margin="normal"
-                              onChange={(e) => check1(e)}
-                              fullWidth
-                            />
-
+                            <div className="inputBox">
+                              <TextField
+                                label="Password"
+                                variant="outlined"
+                                type="text"
+                                name="password"
+                                margin="normal"
+                                id="old_password"
+                                // onChange={(e) => passwordSave(e)}
+                                value={userData.password}
+                                fullWidth
+                              ></TextField>
+                              <TextField
+                                autoComplete="newpassword"
+                                label=" New Password"
+                                variant="outlined"
+                                name="newpassword"
+                                margin="normal"
+                                onChange={(e) => check(e)}
+                                fullWidth
+                                // type={this.state.showPassword ? "text" : "password"}
+                              ></TextField>
+                              {/* <Button
+                                value="right"
+                                aria-label="right aligned"
+                                onClick={()=>this.setState({showPassword:!this.state.showPassword})}
+                              >
+                               {this.state.showPassword ? <ShowIcon/>:<ShowOffIcon/>} 
+                              </Button> */}
+                              <TextField
+                                label=" Confirm New Password"
+                                variant="outlined"
+                                type="password"
+                                name="confirmnewpassword"
+                                margin="normal"
+                                onChange={(e) => check1(e)}
+                                fullWidth
+                              />
+                            </div>
                             <Button
                               variant="contained"
                               size="medium"
@@ -394,5 +403,7 @@ const Passwordchange = () => {
       {/* {localStorage.removeItem("requestData")} */}
     </>
   );
-};
+}
+// }
+// };
 export default Passwordchange;

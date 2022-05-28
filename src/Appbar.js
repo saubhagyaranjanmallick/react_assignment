@@ -16,6 +16,8 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import "./App.css";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { orange } from '@mui/material/colors';
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -64,6 +66,11 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+const theme = createTheme({
+  status: {
+    danger: orange[500],
+  },
+});
 
 export default function KeepMountedModal() {
   const [open, setOpen] = React.useState(false);
@@ -77,9 +84,11 @@ export default function KeepMountedModal() {
   };
 
   return (
-    <div>
+      
+      <div>
       <Grid container lg={12} md={8} sm={4}>
-        <AppBar position="static">
+      <ThemeProvider theme={theme}>
+        <AppBar position="dynamic">
           <Toolbar>
             <Grid item lg={3} md={6} xs={12}>
               <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
@@ -104,6 +113,7 @@ export default function KeepMountedModal() {
             </Grid>
           </Toolbar>
         </AppBar>
+        </ThemeProvider>
         <Modal
           keepMounted
           open={open}
@@ -466,5 +476,6 @@ export default function KeepMountedModal() {
         </Modal>
       </Grid>
     </div>
+    
   );
 }

@@ -38,10 +38,10 @@ export default function Dashboard() {
           <hr />
           <div>
             
-            <marquee style={{ color: "red", fontSize: "1.5em" }}>
+            {/* <marquee style={{ color: "red", fontSize: "1.5em" }}>
               This is the official page of TOTAL Assesment exam portal and the
               latest notifications about examination are listed below .......
-            </marquee>
+            </marquee> */}
           </div>
 
           <Box>

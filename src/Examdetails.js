@@ -12,6 +12,7 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Countdown from "react-countdown";
 import Divider from "@mui/material/Divider";
+import React, { useState, useEffect } from "react";
 
 function createData(
   subject,
@@ -51,7 +52,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Completionist = () => (
   <span style={{ color: "green", fontFamily: "cursive", fontWeight: "bolder" }}>
-    {" "}
     You are ready to start the examination now !
   </span>
 );
@@ -71,6 +71,12 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
 };
 
 const Examdetails = () => {
+  const [startButton, setStartbutton] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setStartbutton(true);
+    }, 11000);
+  });
   return (
     <Grid container spacing={2}>
       <Grid
@@ -103,6 +109,7 @@ const Examdetails = () => {
                     backgroundColor: "#e9ecf0",
                     borderRadius: "3px",
                     color: "black",
+                    padding: 10,
                   }}
                 >
                   <b> Odisha Joint Entrance Examination (OJEE)-2022</b>
@@ -181,7 +188,7 @@ const Examdetails = () => {
                         fontFamily: "monospace",
                       }}
                     >
-                      Exam Start Time:-10 A.M
+                      Exam Start Time:10 A.M
                     </Typography>
                   </card>
                 </Grid>
@@ -196,7 +203,7 @@ const Examdetails = () => {
                         color: "white",
                       }}
                     >
-                      Exam End Time:-11 A.M
+                      Exam End Time:11 A.M
                     </Typography>
                   </card>
                 </Grid>
@@ -211,7 +218,7 @@ const Examdetails = () => {
                         color: "white",
                       }}
                     >
-                      Exam Duration:-1 hour
+                      Exam Duration:1 hour
                     </Typography>
                   </card>
                 </Grid>
@@ -220,7 +227,7 @@ const Examdetails = () => {
           </Grid>
         </Grid>
         <Grid container justifyContent="center">
-          <Grid item lg={4} md={3} sm={2} mt={6} mb={8}>
+          <Grid item lg={10} md={3} sm={2} mt={6} mb={8}>
             <TableContainer component={Paper}>
               <Typography
                 variant="h5"
@@ -251,28 +258,28 @@ const Examdetails = () => {
           </Grid>
         </Grid>
         <Grid container justifyContent="center" spacing={2}>
+          <Grid item lg={10}>
           <card sx={{ mt: 6, mb: 2, m: 2 }}>
             <TableContainer component={Paper}>
-              <Grid container justifyContent="center">
-                <Grid item lg={12}>
-                  <Typography
-                    variant="h5"
-                    align="center"
-                    style={{
-                      fontWeight: "bolder",
-                      background: "linear-gradient(230deg,#051817,#f08e0e)",
-                      color: "white",
-                      padding: "2px",
-                      borderRadius: "3px",
-                      marginTop: "4px",
-                      marginLeft: "4px",
-                      marginRight: "4px",
-                    }}
-                  >
-                    Examination Instructions
-                  </Typography>
-                  <Divider />
-                  <Grid container justifyContent="center">
+              <Grid item lg={12}>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  style={{
+                    fontWeight: "bolder",
+                    background: "linear-gradient(230deg,#051817,#f08e0e)",
+                    color: "white",
+                    padding: "2px",
+                    borderRadius: "3px",
+                    marginTop: "4px",
+                    marginLeft: "4px",
+                    marginRight: "4px",
+                  }}
+                >
+                  Examination Instructions
+                </Typography>
+                <Divider />
+                <Grid container justifyContent="center">
                   <Grid item lg={10}>
                     <card>
                       <Typography sx={{ mt: 3 }}>
@@ -315,25 +322,29 @@ const Examdetails = () => {
                           alignItems: "center",
                         }}
                       >
-                        <Button variant="contained" align="center" fullWidth>
-                          Start
-                        </Button>
+                        {startButton ? (
+                          <Button variant="contained" align="center" fullWidth>
+                            Start
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            disabled
+                            align="center"
+                            fullWidth
+                          >
+                            Start
+                          </Button>
+                        )}
                       </Stack>
                     </card>
                   </Grid>
-                  </Grid>
                 </Grid>
               </Grid>
-              {/* <Grid container justifyContent="center">
-                  <Grid item lg={4} md={2} sm={12}>
-                    <Button variant="contained" align="center" fullWidth>
-                      Click to Start The Exam
-                    </Button>
-                  </Grid>
-                </Grid> */}
             </TableContainer>
           </card>
         </Grid>
+      </Grid>
       </Grid>
     </Grid>
   );

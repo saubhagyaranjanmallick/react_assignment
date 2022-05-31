@@ -5,8 +5,7 @@ import Photovalidation from "./Photovalidation";
 import Passwordchange from "./Passwordchange";
 import Dashboard  from "./Dashboard";
 import Examdetails from "./Examdetails";
-
-
+import SystemCheck from "./SystemCheck";
 const App = () => {
   return (
     <>
@@ -16,6 +15,7 @@ const App = () => {
         <Route path="/password" element={<Passwordchange />}></Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/exam" element={<Examdetails />}></Route>
+        <Route path="/check" element={<SystemCheck />}></Route>
 
       </Routes>
     </>

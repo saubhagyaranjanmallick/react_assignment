@@ -24,10 +24,17 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import ReCAPTCHA from "react-google-recaptcha";
 
+// function verifyCallback(e) {
+//   alert(e);
+//   console.log(e);
+// }
+
+const recaptchaRef = React.createRef();
 const theme = createTheme();
-
 toast.configure();
+
 const App = () => {
   let navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -44,7 +51,7 @@ const App = () => {
       password: password,
       org_code: organization,
     };
-    console.log(requestData);
+    // console.log(requestData);
 
     let string = JSON.stringify(requestData);
     const secret = "N}vLE7k~Egvs.*j)";
@@ -60,7 +67,7 @@ const App = () => {
       method: "POST",
       data: requestData,
     }).then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       const result = response.data;
 
       if (result.status === 200) {
@@ -136,7 +143,11 @@ const App = () => {
   };
 
   return (
-    <form>
+    <form
+      onSubmit={() => {
+        recaptchaRef.current.execute();
+      }}
+    >
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Grid container spacing={2}>
@@ -275,6 +286,12 @@ const App = () => {
           </Grid>
         </Grid>
       </ThemeProvider>
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        size="invisible"
+        sitekey="6LdguTEgAAAAAIIpEpm97ar_hERAQX9xIDev-Imh"
+        // onChange={verifyCallback}
+      />
     </form>
   );
 };

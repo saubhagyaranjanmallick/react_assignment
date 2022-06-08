@@ -150,7 +150,7 @@ const Passwordchange = () => {
               }}
               style={{ minHeight: "100vh" }}
             >
-              <Grid container lg={12} justifyContent="center">
+              <Grid container  justifyContent="center">
                 {validate ? (
                   <Grid
                     item
@@ -179,9 +179,9 @@ const Passwordchange = () => {
                         </Button>
                       </Typography>
                     </Typography>
-                    <Grid container lg={10}>
-                      <Grid lg={8} sm={2}>
-                        <card sx={{ maxHeight: "100%", maxWidth: "80%" }}>
+                    <Grid container >
+                      <Grid item lg={8} sm={2}>
+                        <Card sx={{ maxHeight: "100%", maxWidth: "80%" }}>
                           <Box m={3}>
                             <div className="inputBox">
                               <TextField
@@ -249,7 +249,7 @@ const Passwordchange = () => {
                               change
                             </Button>
                           </Box>
-                        </card>
+                        </Card>
                       </Grid>
                       <Grid item lg={2} sm={1}>
                         <Box

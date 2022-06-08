@@ -1,18 +1,24 @@
-import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
 import Countdown from "react-countdown";
 import Divider from "@mui/material/Divider";
 import React, { useState, useEffect } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import StartIcon from "@mui/icons-material/Start";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Container from "@mui/material/Container";
+import Card from "@mui/material/Card";
+import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 
 function createData(
   subject,
@@ -37,8 +43,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const rows = [
-  createData("General Studies", 50, 2, 30, 0.25, 100),
-  createData("Quantative Aptitude", 50, 2, 30, 0.25, 100),
+  createData("General Studies", 50, 2, 45, 0.25, 100),
+  createData("Quantative Aptitude", 50, 2, 45, 0.25, 100),
+  createData("Total Marks", "", "", "", "", 200),
 ];
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
@@ -51,32 +58,35 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Completionist = () => (
-  <span style={{ color: "green", fontFamily: "cursive", fontWeight: "bolder" }}>
-    You are ready to start the examination now !
+  <span
+    style={{
+      color: "green",
+      fontFamily: "cursive",
+      fontSize: "25px",
+      padding: "5px",
+      alignItems: "center",
+    }}
+  >
+    00:00:00:00
   </span>
 );
 
-const renderer = ({ hours, minutes, seconds, completed }) => {
-  if (completed) {
-    // Render a completed state
-    return <Completionist />;
-  } else {
-    // Render a countdown
-    return (
-      <span>
-        {hours}:{minutes}:{seconds}
-      </span>
-    );
-  }
-};
-
 const Examdetails = () => {
+  //States
   const [startButton, setStartbutton] = useState(false);
+  const [timer, setTimer] = useState(false);
+  //Methods
+
   useEffect(() => {
     setTimeout(() => {
       setStartbutton(true);
     }, 11000);
+    window.addEventListener("scroll", () => {
+      if (document.documentElement.scrollTop > 500) setTimer(true);
+      else setTimer(false);
+    });
   });
+
   return (
     <Grid container spacing={2}>
       <Grid
@@ -88,263 +98,336 @@ const Examdetails = () => {
           backgroundImage:
             "url(https://images.unsplash.com/photo-1488722796624-0aa6f1bb6399?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870)",
           backgroundRepeat: "no-repeat",
-          maxHeight: "180vh",
+          maxHeight: "240vh",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
         style={{ minHeight: "100vh" }}
       >
-        <Grid container justifyContent="center">
-          <Grid item lg={10} md={3} sm={2} mt={8}>
-            <TableContainer
-              component={Paper}
-              style={{ padding: 8, boxShadow: "3px" }}
+        {timer ? (
+          <Grid container justifyContent="right">
+            <Button
+              variant="contained"
+              shape="rounded"
+              style={{
+                position: "fixed",
+                align: "center",
+                backgroundColor: "#a2f5d2",
+                color: "black",
+                fontFamily: "fantasy",
+                fontSize: "25px",
+                borderRadius: 20,
+              }}
             >
-              <card>
-                <Typography
-                  variant="h4"
-                  align="left"
+              <TimerOutlinedIcon sx={{ color: "blueviolet", mr: 1 }} />{" "}
+              <Countdown date={Date.now() + 10000}></Countdown>
+            </Button>
+          </Grid>
+        ) : (
+          ""
+        )}
+        <Container>
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item xs={12}>
+              <Card sx={{ mt: "40px" }}>
+                <Card>
+                  <Typography
+                    variant="h4"
+                    align="left"
+                    style={{
+                      fontFamily: "bolder",
+                      backgroundColor: "#e9ecf0",
+                      borderRadius: "3px",
+                      color: "black",
+                      padding: 10,
+                      margin: 5,
+                    }}
+                  >
+                    <b> Odisha Joint Entrance Examination (OJEE)-2022</b>
+                  </Typography>
+                </Card>
+                <Card
                   style={{
-                    fontFamily: "bolder",
-                    backgroundColor: "#e9ecf0",
-                    borderRadius: "3px",
-                    color: "black",
-                    padding: 10,
+                    minWidth: 650,
+                    mt: 1,
+                    padding: 2,
+                    borderRadius: 1,
                   }}
                 >
-                  <b> Odisha Joint Entrance Examination (OJEE)-2022</b>
-                </Typography>
-              </card>
-
-              <Divider />
-              <card
-                style={{ minWidth: 650, mt: 1, padding: 2, borderRadius: 1 }}
-              >
-                <Table sx={{}} aria-label="customized table">
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell align="center">Subject</StyledTableCell>
-                      <StyledTableCell align="center">
-                        No Of Questions
-                      </StyledTableCell>
-
-                      <StyledTableCell align="center">
-                        Marks Distribution
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        Exam Duration (Min)
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        Negative Mark
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        Total Mark
-                      </StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows.map((row) => (
-                      <StyledTableRow key={row.name}>
-                        <StyledTableCell component="th" scope="row">
-                          {row.subject}
+                  <Table aria-label="customized table">
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell align="center">
+                          Subject
                         </StyledTableCell>
                         <StyledTableCell align="center">
-                          {row.questions}
-                        </StyledTableCell>
-                        <StyledTableCell align="center">
-                          {row.marks}
-                        </StyledTableCell>
-                        <StyledTableCell align="center">
-                          {row.duration}
+                          No Of Questions
                         </StyledTableCell>
 
                         <StyledTableCell align="center">
-                          {row.negativemark}
+                          Marks Distribution
                         </StyledTableCell>
                         <StyledTableCell align="center">
-                          {row.totalmark}
+                          Exam Duration (Min)
                         </StyledTableCell>
-                      </StyledTableRow>
-                    ))}
-                    <Divider />
-                  </TableBody>
-                </Table>
-              </card>
+                        <StyledTableCell align="center">
+                          Negative Mark
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          Full Mark
+                        </StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {rows.map((row) => (
+                        <StyledTableRow key={row.name}>
+                          <StyledTableCell component="th" scope="row">
+                            {row.subject}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.questions}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.marks}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.duration}
+                          </StyledTableCell>
 
-              <Grid
-                container
-                justifyContent="center"
-                spacing={1}
-                sx={{ mt: 2, mb: 2 }}
-              >
-                <Grid item lg={3} md={2} sm={1}>
-                  <card>
-                    <Typography
-                      variant="h6"
-                      style={{
-                        background: "linear-gradient(180deg,#051817,#11c0f5)",
-                        borderRadius: "5px",
-                        color: "white",
-                        fontFamily: "monospace",
-                      }}
-                    >
-                      Exam Start Time:10 A.M
-                    </Typography>
-                  </card>
-                </Grid>
-                <Grid item lg={3} md={2} sm={1}>
-                  <card>
-                    <Typography
-                      variant="h6"
-                      style={{
-                        fontFamily: "monospace",
-                        background: "linear-gradient(180deg,#051817,#11c0f5)",
-                        borderRadius: "5px",
-                        color: "white",
-                      }}
-                    >
-                      Exam End Time:11 A.M
-                    </Typography>
-                  </card>
-                </Grid>
-                <Grid item lg={3} md={2} sm={1}>
-                  <card>
-                    <Typography
-                      variant="h6"
-                      style={{
-                        fontFamily: "monospace",
-                        background: "linear-gradient(180deg,#051817,#11c0f5)",
-                        borderRadius: "5px",
-                        color: "white",
-                      }}
-                    >
-                      Exam Duration:1 hour
-                    </Typography>
-                  </card>
-                </Grid>
-              </Grid>
-            </TableContainer>
+                          <StyledTableCell align="center">
+                            {row.negativemark}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.totalmark}
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      ))}
+                      {/* <Divider /> */}
+                    </TableBody>
+                  </Table>
+                  <Grid
+                    container
+                    justifyContent="center"
+                    spacing={1}
+                    sx={{ mt: 2, mb: 2 }}
+                  >
+                    <Grid item xs={10} md={3} sm={8}>
+                      <Card>
+                        <Typography
+                          style={{
+                            background:
+                              "linear-gradient(180deg,#051817,#11c0f5)",
+                            borderRadius: "5px",
+                            color: "white",
+                            fontFamily: "monospace",
+                            padding: "5px",
+                          }}
+                        >
+                          Exam Start Time:10A.M
+                        </Typography>
+                      </Card>
+                    </Grid>
+                    <Grid item xs={10} md={3} sm={8}>
+                      <Card>
+                        <Typography
+                          style={{
+                            fontFamily: "monospace",
+                            background:
+                              "linear-gradient(180deg,#051817,#11c0f5)",
+                            borderRadius: "5px",
+                            color: "white",
+                            padding: "5px",
+                          }}
+                        >
+                          Exam End Time:11 A.M
+                        </Typography>
+                      </Card>
+                    </Grid>
+                    <Grid item xs={10} md={3} sm={8}>
+                      <Card>
+                        <Typography
+                          style={{
+                            fontFamily: "monospace",
+                            background:
+                              "linear-gradient(180deg,#051817,#11c0f5)",
+                            borderRadius: "5px",
+                            color: "white",
+                            padding: "5px",
+                          }}
+                        >
+                          Exam Duration:1hr:30min
+                        </Typography>
+                      </Card>
+                    </Grid>
+                  </Grid>
+                </Card>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid container justifyContent="center">
-          <Grid item lg={10} md={3} sm={2} mt={6} mb={8}>
-            <TableContainer component={Paper}>
-              <Typography
-                variant="h5"
-                align="center"
+        </Container>
+        <Container>
+          <Grid container justifyContent="center" spacing={2}>
+            <Grid item xs={12}>
+              <Box
+                sx={{ flexGrow: 1, mt: 4, mb: 5 }}
+                component={Paper}
                 style={{
-                  fontFamily: "sans",
-                  background: "linear-gradient(230deg,#051817,#0e3839)",
-                  color: "white",
+                  fontWeight: "bolder",
+                  color: "green",
+                  padding: "2px",
+                  borderRadius: "3px",
                 }}
+                //onMouseMove={afterScroll}
               >
-                <b>Examination Timer</b>
-              </Typography>
-              <Divider />
-              <Typography
-                variant="h5"
-                align="center"
-                style={{
-                  fontFamily: "monospace",
-                  color: "red",
-                  backgroundColor: "#e9edf0",
-                }}
-              >
-                <Countdown date={Date.now() + 10000}>
-                  <Completionist />
-                </Countdown>
-              </Typography>
-            </TableContainer>
+                {startButton ? (
+                  <Button variant="contained" fullWidth>
+                    start
+                    <StartIcon sx={{ ml: 1 }} />
+                  </Button>
+                ) : (
+                  <Typography
+                    variant="h4"
+                    align="center"
+                    padding="5px"
+                    fontFamily="monospace"
+                    fontWeight="bolder"
+                    color="red"
+                  >
+                    Time Left :-
+                    <span
+                      style={{
+                        fontFamily: "monospace",
+                        color: "black",
+                        fontSize: "45px",
+                        backgroundColor: "#e9ecf0",
+                        borderRadius: "5px",
+                        padding: "4px",
+                      }}
+                    >
+                      <Countdown date={Date.now() + 10000}>
+                        <Completionist />
+                      </Countdown>
+                    </span>
+                  </Typography>
+                )}
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid container justifyContent="center" spacing={2}>
-          <Grid item lg={10}>
-          <card sx={{ mt: 6, mb: 2, m: 2 }}>
-            <TableContainer component={Paper}>
-              <Grid item lg={12}>
-                <Typography
-                  variant="h5"
-                  align="center"
-                  style={{
-                    fontWeight: "bolder",
-                    background: "linear-gradient(230deg,#051817,#f08e0e)",
-                    color: "white",
-                    padding: "2px",
-                    borderRadius: "3px",
-                    marginTop: "4px",
-                    marginLeft: "4px",
-                    marginRight: "4px",
-                  }}
-                >
-                  Examination Instructions
-                </Typography>
-                <Divider />
-                <Grid container justifyContent="center">
-                  <Grid item lg={10}>
-                    <card>
-                      <Typography sx={{ mt: 3 }}>
-                        ➢ The candidate has to read carefully, the “Information
-                        Brochure” and “Instructions to fill the online
-                        Application Form for OJEE-2022”.
-                      </Typography>
-                      <Typography>
-                        ➢ First of all, the candidate is to visit OJEE website
-                        (www.ojee.nic.in) and then go to the registration page
-                        by clicking on “Fresh Candidate Registration”
-                      </Typography>
-                      <Typography>
-                        ➢ The candidate has to read carefully, the “Information
-                        Brochure” and “Instructions to fill the online
-                        Application Form for OJEE-2022”.
-                      </Typography>
-                      <Typography>
-                        ➢ First of all, the candidate is to visit OJEE website
-                        (www.ojee.nic.in) and then go to the registration page
-                        by clicking on “Fresh Candidate Registration”
-                      </Typography>
-                      <Typography>
-                        ➢ The candidate has to read carefully, the “Information
-                        Brochure” and “Instructions to fill the online
-                        Application Form for OJEE-2022”.
-                      </Typography>
-                      <Typography>
-                        ➢ First of all, the candidate is to visit OJEE website
-                        (www.ojee.nic.in) and then go to the registration page
-                        by clicking on “Fresh Candidate Registration”
-                      </Typography>
-                      <Stack
-                        direction="row"
-                        justifyContent="space-between"
-                        sx={{
-                          px: 2,
-                          py: 1,
-                          bgcolor: "background.default",
-                          alignItems: "center",
-                        }}
-                      >
-                        {startButton ? (
-                          <Button variant="contained" align="center" fullWidth>
-                            Start
-                          </Button>
-                        ) : (
-                          <Button
-                            variant="contained"
-                            disabled
-                            align="center"
-                            fullWidth
-                          >
-                            Start
-                          </Button>
-                        )}
-                      </Stack>
-                    </card>
+        </Container>
+
+        <Container>
+          <Grid container justifyContent="center" spacing={2}>
+            <Grid item xs={12}>
+              <Card sx={{ mt: 1, mb: 5, m: 2 }}>
+                <Grid item xs={12}>
+                  <Typography
+                    variant="h5"
+                    align="center"
+                    style={{
+                      fontWeight: "bolder",
+                      background: "linear-gradient(230deg,#051817,#f08e0e)",
+                      color: "white",
+                      padding: "2px",
+                      fontSize:"33px",
+                      borderRadius: "3px",
+                      marginTop: "4px",
+                      marginLeft: "4px",
+                      marginRight: "4px",
+                    }}
+                  >
+                    Examination Instructions
+                  </Typography>
+                  <Divider />
+                  <Grid container justifyContent="center" spacing={2}>
+                    <Grid item xs={10}>
+                      <Card>
+                        <List>
+                          <ListItem>
+                            <ListItemText>
+                              ➢ The candidate has to read carefully, the
+                              “Information Brochure” and “Instructions to fill
+                              the online Application Form for OJEE-2022”.
+                            </ListItemText>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText>
+                              ➢ The candidate must take admit card of respective
+                              exam along with original identity card in which
+                              photo should be clearly visible.
+                            </ListItemText>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText>
+                              ➢ Do not carry any electronic
+                              devices,calculator,smart watch and electronic
+                              gadegets into the examination hall, If any one
+                              find with this item then they can not appear their
+                              examination.
+                            </ListItemText>
+                          </ListItem>
+
+                          <ListItem>
+                            <ListItemText>
+                              ➢ Do not carry any electronic
+                              devices,calculator,smart watch and electronic
+                              gadegets into the examination hall, If any one
+                              find with this item then they can not appear their
+                              examination.
+                            </ListItemText>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText>
+                              ➢ Do not carry any electronic
+                              devices,calculator,smart watch and electronic
+                              gadegets into the examination hall, If any one
+                              find with this item then they can not appear their
+                              examination.
+                            </ListItemText>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText>
+                              ➢ Do not carry any electronic
+                              devices,calculator,smart watch and electronic
+                              gadegets into the examination hall, If any one
+                              find with this item then they can not appear their
+                              examination.
+                            </ListItemText>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText>
+                              ➢ Do not carry any electronic
+                              devices,calculator,smart watch and electronic
+                              gadegets into the examination hall, If any one
+                              find with this item then they can not appear their
+                              examination.
+                            </ListItemText>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText>
+                              ➢ Do not carry any electronic
+                              devices,calculator,smart watch and electronic
+                              gadegets into the examination hall, If any one
+                              find with this item then they can not appear their
+                              examination.
+                            </ListItemText>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText>
+                              ➢ The candidate must take a transparent water
+                              bottle with a N -95 mask and sanitizer , obey all
+                              the SOP guidelines for Covid-19.
+                            </ListItemText>
+                          </ListItem>
+                        </List>
+                      </Card>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-            </TableContainer>
-          </card>
-        </Grid>
-      </Grid>
+              </Card>
+              <br />
+            </Grid>
+          </Grid>
+        </Container>
       </Grid>
     </Grid>
   );

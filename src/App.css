@@ -50,3 +50,22 @@
   background-size: cover;
   cursor: pointer;
 } */
+ .typo{
+  /* background: "linear-gradient(180deg,#051817,#11c0f5)"; */
+  background-color: rgb(158, 210, 210);
+  font-style: initial;
+  border-radius:"5px";
+  color: "white";
+  margin: "4px";
+  padding: "5px";
+ }
+
+ .scrolling-box {
+  background-color: #eaeaea;
+  display: block;
+  width: 830px;
+  height: 260px;
+  padding: 1em;
+  overflow-y: scroll;
+  text-align: center;
+}

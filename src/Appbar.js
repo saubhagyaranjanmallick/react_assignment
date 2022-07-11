@@ -62,8 +62,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 900,
-  height: 400,
+  width: "60%",
+  height: "70%",
   bgcolor: "background.paper",
   border: "2px ",
   boxShadow: 24,
@@ -91,6 +91,7 @@ export default function KeepMountedModal() {
       <Grid container >
         <CssBaseline/>
         <ThemeProvider theme={theme}>
+          
           <AppBar position="relative">
             <Toolbar>
               <Grid item lg={3} md={6} xs={12}>
@@ -105,7 +106,7 @@ export default function KeepMountedModal() {
                 </Typography>
               </Grid>
               <Grid item lg={8}></Grid>
-              <Grid item lg={1} md={4} sm={1}>
+              {/* <Grid item lg={1} md={4} sm={1}> */}
                 <Button
                   sx={{ mb: 1 }}
                   variant="contained"
@@ -113,10 +114,11 @@ export default function KeepMountedModal() {
                   color="warning"
                   onClick={handleOpen}
                   startIcon={<HelpCenterRoundedIcon />}
+                  float="right"
                 >
                   FAQ
                 </Button>
-              </Grid>
+              {/* </Grid> */}
             </Toolbar>
           </AppBar>
         </ThemeProvider>
@@ -149,7 +151,7 @@ export default function KeepMountedModal() {
               </b>
             </Typography>
             <div className="scrolling-box">
-              <Grid item lg={12} md={6} sm={4}>
+              <Grid item xs={10} md={12} sm={8}>
                 <Accordion
                   expanded={expanded === "panel1"}
                   onChange={handleChange("panel1")}

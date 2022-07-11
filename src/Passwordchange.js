@@ -13,12 +13,12 @@ import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import { Button } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { toast, ToastContainer } from "react-toastify";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import Erroricon from "./Icon/Erroricon.gif";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CryptoJs from "crypto-js";
-
+import Appbar from "./Appbar";
 
 
 const Passwordchange = () => {
@@ -129,58 +129,61 @@ const Passwordchange = () => {
   let data = bytes.toString(CryptoJs.enc.Utf8);
   const userData = JSON.parse(data);
   const getresultData = JSON.parse(localStorage.getItem("resultData"));
-  
+
   return (
     <>
       <form>
+        <Appbar/>
         <Box>
           <Grid container justifyContent="center">
             <Grid
               item
-              lg={12}
-              md={6}
-              sm={3}
+              xs={12}
+              md={12}
+              sm={10}
               sx={{
                 backgroundImage:
                   "url(https://images.unsplash.com/photo-1488722796624-0aa6f1bb6399?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870)",
                 backgroundRepeat: "no-repeat",
-                maxHeight: "100vh",
+                maxHeight: "200vh",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
               style={{ minHeight: "100vh" }}
             >
-              <Grid container  justifyContent="center">
-                {validate ? (
+              {validate ? (
+                <Grid container spacing={2} justifyContent="center">
                   <Grid
                     item
-                    lg={9}
-                    sm={4}
+                    xs={12}
+                    sm={10}
+                    md={8}
                     mt={10}
                     sx={{ backgroundColor: "whitesmoke" }}
                   >
+                    
                     <Typography
                       variant="h6"
                       component="div"
                       sx={{ flexGrow: 1, mb: 2, mt: 2 }}
                     >
-                      <EditIcon color="primary" />{" "}
+                      <EditIcon color="primary" />
                       <b>Change Default Password</b>
                       <Typography
                         variant="h11"
-                        sx={{ flexGrow: 1, mb: 2, ml: 41 }}
+                        sx={{ flexGrow: 1, mb: 2,ml:40 }}
                       >
                         <b>
                           Welcome, {getresultData.data.first_name}
                           {getresultData.data.last_name}
                         </b>
-                        <Button variant="outlined" size="small" color="warning">
+                        <Button variant="outlined" size="small" color="warning" float="right">
                           <LogoutIcon /> LOGOUT
                         </Button>
                       </Typography>
                     </Typography>
-                    <Grid container >
-                      <Grid item lg={8} sm={2}>
+                    <Grid container>
+                      <Grid item xs ={12} md={8} sm={6}>
                         <Card sx={{ maxHeight: "100%", maxWidth: "80%" }}>
                           <Box m={3}>
                             <div className="inputBox">
@@ -336,66 +339,66 @@ const Passwordchange = () => {
                       </Grid>
                     </Grid>
                   </Grid>
-                ) : (
-                  ""
-                )}
-                {failure ? (
-                  <Card
-                    sx={{
-                      marginTop: "80px",
-                      width: "710px",
-                      height: "300px",
-                      marginBottom: "161px",
-                    }}
-                  >
-                    <Grid container justifyContent="center">
-                      <Grid item lg={6} sm={3}>
-                        <Typography variant="h6">
-                          <b>Password Changed failed....❌</b>
-                        </Typography>
-                        <img src={Erroricon} alt="" />
-                      </Grid>
+                </Grid>
+              ) : (
+                ""
+              )}
+              {failure ? (
+                <Card
+                  sx={{
+                    marginTop: "80px",
+                    width: "710px",
+                    height: "300px",
+                    marginBottom: "161px",
+                  }}
+                >
+                  <Grid container justifyContent="center">
+                    <Grid item lg={6} sm={3}>
+                      <Typography variant="h6">
+                        <b>Password Changed failed....❌</b>
+                      </Typography>
+                      <img src={Erroricon} alt="" />
                     </Grid>
-                  </Card>
-                ) : (
-                  ""
-                )}
-                {proceed ? (
-                  <Card
-                    sx={{
-                      marginTop: "80px",
-                      width: "710px",
-                      height: "300px",
-                      marginBottom: "161px",
-                    }}
-                  >
-                    <Grid container justifyContent="center">
-                      <Grid item lg={6} sm={3}>
-                        <CheckCircleOutlineIcon
-                          style={{
-                            color: "green",
-                            height: "120px",
-                            width: "200px",
-                            marginLeft: "60px",
-                            marginTop: "5px",
-                          }}
-                        />
+                  </Grid>
+                </Card>
+              ) : (
+                ""
+              )}
+              {proceed ? (
+                <Card
+                  sx={{
+                    marginTop: "80px",
+                    width: "710px",
+                    height: "300px",
+                    marginBottom: "161px",
+                  }}
+                >
+                  <Grid container justifyContent="center">
+                    <Grid item lg={6} sm={3}>
+                      <CheckCircleOutlineIcon
+                        style={{
+                          color: "green",
+                          height: "120px",
+                          width: "200px",
+                          marginLeft: "60px",
+                          marginTop: "5px",
+                        }}
+                      />
 
-                        <Typography
-                          variant="h5"
-                          style={{
-                            color: "grey",
-                          }}
-                        >
-                          <b> Password Changed Done..</b>
-                        </Typography>
-                      </Grid>
+                      <Typography
+                        variant="h5"
+                        style={{
+                          color: "grey",
+                        }}
+                      >
+                        <b> Password Changed Done..</b>
+                      </Typography>
                     </Grid>
-                  </Card>
-                ) : (
-                  ""
-                )}
-              </Grid>
+                  </Grid>
+                </Card>
+              ) : (
+                ""
+              )}
             </Grid>
           </Grid>
         </Box>
@@ -403,7 +406,7 @@ const Passwordchange = () => {
       {/* {localStorage.removeItem("requestData")} */}
     </>
   );
-}
+};
 // }
 // };
 export default Passwordchange;

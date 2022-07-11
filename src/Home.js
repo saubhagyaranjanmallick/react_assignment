@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import Appbar from "./Appbar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -25,6 +26,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import ReCAPTCHA from "react-google-recaptcha";
+import background from "../src/Images/background.avif";
 
 // function verifyCallback(e) {
 //   alert(e);
@@ -77,7 +79,7 @@ const App = () => {
           if (result.data.password_change_status === "YES") {
             localStorage.setItem("resultData", JSON.stringify(result));
             setTimeout(() => {
-              navigate("/photovalidation");
+              navigate("/Test");
             }, 3000);
           } else {
             localStorage.setItem("resultData", JSON.stringify(result));
@@ -151,15 +153,15 @@ const App = () => {
     >
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Grid container spacing={2}>
+        <Appbar/>
+        <Grid containermmaxWidth ="sm" spacing={2}>
           <Grid
             item
-            lg={12}
-            md={6}
-            sm={3}
+            xs={12}
+            md={10}
+            sm={10}
             sx={{
-              backgroundImage:
-                "url(https://wallpaperaccess.com/full/1657789.jpg)",
+              backgroundImage: "url(" + background + ")",
               backgroundRepeat: "no-repeat",
               maxHeight: "100vh",
               backgroundSize: "cover",
@@ -167,9 +169,10 @@ const App = () => {
             }}
             style={{ minHeight: "100vh" }}
           >
-            <Grid container justifyContent="center">
-              <Grid item lg={6} md={3} sm={2} mt={8} component={Paper}>
-                <Container maxWidth="sm" style={{ m: 2 }}>
+            <Grid container justifyContent="center" spacing={2}>
+              
+              <Grid item xs={12} md={6} sm={8} mt={8}  component={Paper}>
+                <Container style={{ m: 2 }}>
                   <Box
                     sx={{
                       "& > :not(style)": { m: 1 },
@@ -194,10 +197,7 @@ const App = () => {
                       fullWidth
                     />
 
-                    <FormControl
-                      sx={{ m: 1, width: "62ch" }}
-                      variant="outlined"
-                    >
+                    <FormControl sx={{ m: 1 }} variant="outlined" fullWidth>
                       <InputLabel htmlFor="outlined-adornment-password">
                         Password
                       </InputLabel>
@@ -282,7 +282,7 @@ const App = () => {
             </Grid>
             <Box sx={{ mt: 12 }}>
               <Copyright sx={{ mt: 5, color: "white" }} />
-              <Version sx={{ mb: 8, color: "white" }} />
+              <Version sx={{ mb: 10, color: "white" }} />
             </Box>
           </Grid>
         </Grid>

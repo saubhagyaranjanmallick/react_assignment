@@ -22,6 +22,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import GppBadIcon from "@mui/icons-material/GppBad";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import { toast,ToastContainer } from "react-toastify";
+import background from "../src/Images/background.avif";
+import Appbar from "./Appbar";
+import App from "./App";
 
 const PhotoValidation = () => {
   let navigate = useNavigate();
@@ -65,7 +68,7 @@ const PhotoValidation = () => {
             setMatch(true);
             setFailure(false);
             setTimeout(() => {
-              navigate("/dashboard");
+              navigate("/exam");
             }, 4000);
           } else {
             toast.warning("Photo Mismatch..!");
@@ -97,18 +100,18 @@ const PhotoValidation = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="app">
+      <Appbar/>
         <Grid
           container
           spacing={2}
           justifyContent="center"
          
           sx={{
-            backgroundImage:
-              "url(https://images.unsplash.com/photo-1488722796624-0aa6f1bb6399?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870)",
+            backgroundImage: "url(" + background + ")",
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
           }}
-        >
+        > 
           {validate ? (
             <Card sx={{ height: "500px", mt: 10, mb: 7.6, width: "1200px" }}>
               {/*---------------------------------------AppBar-------------------------------------------- */}

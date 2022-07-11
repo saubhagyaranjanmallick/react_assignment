@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { Typography } from "@mui/material";
+import { Typography ,Grow} from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import "./App.css";
 
@@ -23,6 +23,11 @@ export default function Dashboard() {
       style={{ minHeight: "100vh" }}
     >
       <Grid item lg={8}>
+      <Grow
+                in={true}
+                style={{ transformOrigin: '0 0 0 0' }}
+                {...(true ? { timeout: 1000 } : {})}
+                >
         <Box
           sx={{
             minWidth: "100%",
@@ -77,6 +82,7 @@ export default function Dashboard() {
             </Typography>
           </Box>
         </Box>
+        </Grow>
       </Grid>
     </Grid>
   );

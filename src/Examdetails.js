@@ -1,14 +1,16 @@
 import Grid from "@mui/material/Grid";
-import { Typography } from "@mui/material";
+import { Typography} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import Divider from "@mui/material/Divider";
+
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import Countdown from "react-countdown";
-import Divider from "@mui/material/Divider";
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -19,6 +21,12 @@ import ListItemText from "@mui/material/ListItemText";
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
+import Grow from "@mui/material/Grow";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import background from "../src/Images/background.avif";
+import Appbar from "./Appbar";
+
 
 function createData(
   subject,
@@ -71,11 +79,30 @@ const Completionist = () => (
   </span>
 );
 
+const icon = (
+  <Paper sx={{ m: 1 }} elevation={4}>
+    <Box sx={{ width: 180, height: 60 }}>
+      <Typography>Left Time </Typography>
+      <Countdown date={Date.now() + 10000}></Countdown>
+    </Box>
+  </Paper>
+);
+
 const Examdetails = () => {
   //States
+  let navigate = useNavigate();
   const [startButton, setStartbutton] = useState(false);
   const [timer, setTimer] = useState(false);
+  const [checked, setChecked] = React.useState(false);
+
   //Methods
+
+  const handleChange = () => {
+    setChecked((prev) => !prev);
+      setTimeout(() => {
+        navigate("/examconduct");
+      }, 1000);
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -93,19 +120,25 @@ const Examdetails = () => {
         item
         lg={12}
         md={6}
-        sm={3}
+        sm={12}
         sx={{
-          backgroundImage:
-            "url(https://images.unsplash.com/photo-1488722796624-0aa6f1bb6399?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870)",
+          backgroundImage: "url(" + background + ")",
           backgroundRepeat: "no-repeat",
           maxHeight: "240vh",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
         style={{ minHeight: "100vh" }}
-      >
+      > <Appbar/>
         {timer ? (
           <Grid container justifyContent="right">
+
+            
+             <Grow
+                in={true}
+                style={{ transformOrigin: '0 0 0 0' }}
+                {...(true ? { timeout: 1000 } : {})}
+                >  
             <Button
               variant="contained"
               shape="rounded"
@@ -122,13 +155,14 @@ const Examdetails = () => {
               <TimerOutlinedIcon sx={{ color: "blueviolet", mr: 1 }} />{" "}
               <Countdown date={Date.now() + 10000}></Countdown>
             </Button>
+            </Grow>
           </Grid>
         ) : (
           ""
         )}
         <Container>
           <Grid container spacing={2} justifyContent="center">
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={10} md={12}>
               <Card sx={{ mt: "40px" }}>
                 <Card>
                   <Typography
@@ -211,7 +245,7 @@ const Examdetails = () => {
                     spacing={1}
                     sx={{ mt: 2, mb: 2 }}
                   >
-                    <Grid item xs={10} md={3} sm={8}>
+                    <Grid item xs={10} md={3} sm={10}>
                       <Card>
                         <Typography
                           style={{
@@ -227,7 +261,7 @@ const Examdetails = () => {
                         </Typography>
                       </Card>
                     </Grid>
-                    <Grid item xs={10} md={3} sm={8}>
+                    <Grid item xs={10} md={3} sm={10}>
                       <Card>
                         <Typography
                           style={{
@@ -243,7 +277,7 @@ const Examdetails = () => {
                         </Typography>
                       </Card>
                     </Grid>
-                    <Grid item xs={10} md={3} sm={8}>
+                    <Grid item xs={10} md={3} sm={10}>
                       <Card>
                         <Typography
                           style={{
@@ -267,7 +301,7 @@ const Examdetails = () => {
         </Container>
         <Container>
           <Grid container justifyContent="center" spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={10} md={12}>
               <Box
                 sx={{ flexGrow: 1, mt: 4, mb: 5 }}
                 component={Paper}
@@ -280,7 +314,8 @@ const Examdetails = () => {
                 //onMouseMove={afterScroll}
               >
                 {startButton ? (
-                  <Button variant="contained" fullWidth>
+                  <Button variant="contained" fullWidth
+                  onClick={handleChange}>
                     start
                     <StartIcon sx={{ ml: 1 }} />
                   </Button>
@@ -317,7 +352,7 @@ const Examdetails = () => {
 
         <Container>
           <Grid container justifyContent="center" spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={12} sm={10}>
               <Card sx={{ mt: 1, mb: 5, m: 2 }}>
                 <Grid item xs={12}>
                   <Typography
@@ -328,7 +363,7 @@ const Examdetails = () => {
                       background: "linear-gradient(230deg,#051817,#f08e0e)",
                       color: "white",
                       padding: "2px",
-                      fontSize:"33px",
+                      fontSize: "33px",
                       borderRadius: "3px",
                       marginTop: "4px",
                       marginLeft: "4px",
